@@ -11,7 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController(Const.API)
+@RestController
+@RequestMapping(value = Const.API)
 public class SupportController {
 
     @RequestMapping(value = "/status", method = RequestMethod.GET)
