@@ -44,7 +44,8 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public ResponseDTO executeTrade(TradeRequestDTO requestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
-
+        log.info("START executeTrade for userId: {}, transactionType: {}, amount: {}",
+                requestDTO.getUserId(), requestDTO.getTransactionType(), requestDTO.getAmount());
         try {
             TradingPair tradingPair = tradingPairRepo.findById(requestDTO.getTradingPairId())
                     .orElse(null);
@@ -73,43 +74,7 @@ public class TradeServiceImpl implements TradeService {
             Wallet quoteWallet = walletRepo.lockWalletForUpdate(requestDTO.getUserId(),
                     tradingPair.getQuoteCurrency().getId());
 
-            OrderStatusEnum orderStatus;
-            // --------------------------------------------
-            // BUY FLOW
-            // --------------------------------------------
-            if (TransactionTypeEnum.BUY.equals(requestDTO.getTransactionType())) {
-                orderStatus = OrderStatusEnum.FILLED;
-                if (quoteWallet.getAvailable().compareTo(totalCost) < 0) {
-                    orderStatus = OrderStatusEnum.REJECTED;
-
-                    responseDTO.setMessage("Insufficient quote currency (USDT)");
-                    responseDTO.setStatus(HttpStatus.BAD_REQUEST);
-                } else {
-                    quoteWallet.setAvailable(quoteWallet.getAvailable().subtract(totalCost));
-                    baseWallet.setAvailable(baseWallet.getAvailable().add(requestDTO.getAmount()));
-                }
-            }
-            // --------------------------------------------
-            // SELL FLOW
-            // --------------------------------------------
-            else {
-                orderStatus = OrderStatusEnum.FILLED;
-                if (baseWallet.getAvailable().compareTo(requestDTO.getAmount()) < 0) {
-                    orderStatus =  OrderStatusEnum.REJECTED;
-
-                    responseDTO.setMessage("Insufficient base currency");
-                    responseDTO.setStatus(HttpStatus.BAD_REQUEST);
-                } else {
-                    baseWallet.setAvailable(baseWallet.getAvailable().subtract(requestDTO.getAmount()));
-                    quoteWallet.setAvailable(quoteWallet.getAvailable().add(totalCost));
-                }
-            }
-
-            // Save updated wallets
-            walletRepo.save(baseWallet);
-            walletRepo.save(quoteWallet);
-
-            // Save trade order
+            // Build init data for TradeOrder
             TradeOrder order = TradeOrder.builder()
                     .user(User.builder().id(requestDTO.getUserId()).build())
                     .tradingPair(tradingPair)
@@ -117,57 +82,83 @@ public class TradeServiceImpl implements TradeService {
                     .amount(requestDTO.getAmount())
                     .price(executedPrice)
                     .total(totalCost)
-                    .status(orderStatus.name())
+                    .status(OrderStatusEnum.FILLED.name())
                     .createdAt(LocalDateTime.now())
                     .executedAt(LocalDateTime.now())
                     .build();
+            // --------------------------------------------
+            // BUY FLOW
+            // --------------------------------------------
+            if (TransactionTypeEnum.BUY.equals(requestDTO.getTransactionType())) {
+                if (quoteWallet.getAvailable().compareTo(totalCost) < 0) {
+                    order.setStatus(OrderStatusEnum.REJECTED.name());
 
+                    // Save trade order
+                    tradeOrderRepo.save(order);
+
+                    responseDTO.setMessage("Insufficient quote currency (USDT)");
+                    responseDTO.setStatus(HttpStatus.BAD_REQUEST);
+                    return responseDTO;
+                }
+                quoteWallet.setAvailable(quoteWallet.getAvailable().subtract(totalCost));
+                baseWallet.setAvailable(baseWallet.getAvailable().add(requestDTO.getAmount()));
+            }
+            // --------------------------------------------
+            // SELL FLOW
+            // --------------------------------------------
+            else {
+                if (baseWallet.getAvailable().compareTo(requestDTO.getAmount()) < 0) {
+                    order.setStatus(OrderStatusEnum.REJECTED.name());
+
+                    // Save trade order
+                    tradeOrderRepo.save(order);
+
+                    responseDTO.setMessage("Insufficient base currency");
+                    responseDTO.setStatus(HttpStatus.BAD_REQUEST);
+                    return responseDTO;
+                }
+                baseWallet.setAvailable(baseWallet.getAvailable().subtract(requestDTO.getAmount()));
+                quoteWallet.setAvailable(quoteWallet.getAvailable().add(totalCost));
+            }
+
+            // Save updated wallets
+            walletRepo.save(baseWallet);
+            walletRepo.save(quoteWallet);
+
+            // Save trade order
             tradeOrderRepo.save(order);
 
             // Save transaction ledger entry
-            // Only save transaction when order is FILLED
-            if (OrderStatusEnum.FILLED.equals(orderStatus)) {
-                TradeTransaction tx = TradeTransaction.builder()
-                        .tradeOrder(order)
-                        .user(User.builder().id(requestDTO.getUserId()).build())
-                        .tradingPair(tradingPair)
-                        .side(requestDTO.getTransactionType().name())
-                        .price(executedPrice)
-                        .amount(requestDTO.getAmount())
-                        .total(totalCost)
-                        .createdAt(LocalDateTime.now())
-                        .build();
+            TradeTransaction tx = TradeTransaction.builder()
+                    .tradeOrder(order)
+                    .user(User.builder().id(requestDTO.getUserId()).build())
+                    .tradingPair(tradingPair)
+                    .side(requestDTO.getTransactionType().name())
+                    .price(executedPrice)
+                    .amount(requestDTO.getAmount())
+                    .total(totalCost)
+                    .createdAt(LocalDateTime.now())
+                    .build();
 
-                tradeTxRepo.save(tx);
-            }
+            tradeTxRepo.save(tx);
 
-            responseDTO.setData(TradeOrderDTO
-                    .builder()
-                    .id(order.getId())
-                    .wallets(WalletDTO.convertToListDTO(Arrays.asList(baseWallet, quoteWallet)))
-                    .user(UserDTO
-                            .builder()
+            TradeOrderDTO data = TradeOrderDTO.convertToDTO(order);
+            data.setWallets(WalletDTO.convertToListDTO(Arrays.asList(baseWallet, quoteWallet)));
+            data.setUser(UserDTO.builder()
                             .id(requestDTO.getUserId())
-                            .build())
-                    .tradingPair(TradingPairDTO
-                            .builder()
+                            .build());
+            data.setTradingPair(TradingPairDTO.builder()
                             .id(tradingPair.getId())
                             .symbol(tradingPair.getSymbol())
-                            .build())
-                    .side(order.getSide())
-                    .amount(order.getAmount())
-                    .price(order.getPrice())
-                    .total(order.getTotal())
-                    .status(order.getStatus())
-                    .createdAt(order.getCreatedAt())
-                    .executedAt(order.getExecutedAt())
-                    .build());
+                            .build());
+            responseDTO.setData(data);
         } catch (Exception e) {
             log.error("Error occurred while executing trade", e);
             responseDTO.setMessage("Error occurred while executing trade");
             responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
+        log.info("END executeTrade for userId: {}, transactionType: {}, amount: {}",
+                requestDTO.getUserId(), requestDTO.getTransactionType(), requestDTO.getAmount());
         return responseDTO;
     }
 }

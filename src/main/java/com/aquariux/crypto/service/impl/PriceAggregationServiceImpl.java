@@ -1,6 +1,8 @@
 package com.aquariux.crypto.service.impl;
 
-import com.aquariux.crypto.dto.*;
+import com.aquariux.crypto.dto.AggregatedPriceDTO;
+import com.aquariux.crypto.dto.ExternalPriceDTO;
+import com.aquariux.crypto.dto.ResponseDTO;
 import com.aquariux.crypto.entity.AggregatedPrice;
 import com.aquariux.crypto.entity.PriceFeed;
 import com.aquariux.crypto.entity.PriceSource;
@@ -102,33 +104,7 @@ public class PriceAggregationServiceImpl implements PriceAggregationService {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
             List<AggregatedPrice> entities = aggregatedPriceRepo.findLatestPricesForAllPairs();
-            List<AggregatedPriceDTO> data = new ArrayList<>();
-            for (AggregatedPrice entity : entities) {
-                AggregatedPriceDTO dto = AggregatedPriceDTO
-                        .builder()
-                        .id(entity.getId())
-                        .tradingPair(TradingPairDTO
-                                .builder()
-                                .id(entity.getTradingPair().getId())
-                                .symbol(entity.getTradingPair().getSymbol())
-                                .build())
-                        .bestBid(entity.getBestBid())
-                        .bestBidSource(PriceSourceDTO
-                                .builder()
-                                .id(entity.getBestBidSource().getId())
-                                .code(entity.getBestBidSource().getCode())
-                                .build())
-                        .bestAsk(entity.getBestAsk())
-                        .bestAskSource(PriceSourceDTO
-                                .builder()
-                                .id(entity.getBestAskSource().getId())
-                                .code(entity.getBestAskSource().getCode())
-                                .build())
-                        .aggregatedAt(entity.getAggregatedAt())
-                        .build();
-                data.add(dto);
-            }
-            responseDTO.setData(data);
+            responseDTO.setData(AggregatedPriceDTO.convertToListDTO(entities));
         } catch (Exception e) {
             log.error("Error occurred when findLatestPricesForAllPairs: ", e);
             responseDTO.setMessage("Error occurred when findLatestPricesForAllPairs");

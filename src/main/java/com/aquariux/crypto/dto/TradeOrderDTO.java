@@ -1,5 +1,6 @@
 package com.aquariux.crypto.dto;
 
+import com.aquariux.crypto.entity.TradeOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,18 @@ public class TradeOrderDTO {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime executedAt;
+
+    public static TradeOrderDTO convertToDTO(TradeOrder order) {
+        return TradeOrderDTO
+                .builder()
+                .id(order.getId())
+                .side(order.getSide())
+                .amount(order.getAmount())
+                .price(order.getPrice())
+                .total(order.getTotal())
+                .status(order.getStatus())
+                .createdAt(order.getCreatedAt())
+                .executedAt(order.getExecutedAt())
+                .build();
+    }
 }
