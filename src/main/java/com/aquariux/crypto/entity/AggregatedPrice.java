@@ -19,21 +19,21 @@ public class AggregatedPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "trading_pair_id", nullable = false)
     private TradingPair tradingPair;
 
     @Column(name = "best_bid", precision = 30, scale = 10)
     private BigDecimal bestBid;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "best_bid_source_id")
     private PriceSource bestBidSource;
 
     @Column(name = "best_ask", precision = 30, scale = 10)
     private BigDecimal bestAsk;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "best_ask_source_id")
     private PriceSource bestAskSource;
 

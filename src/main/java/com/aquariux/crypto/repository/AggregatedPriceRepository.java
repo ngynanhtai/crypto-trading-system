@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AggregatedPriceRepository extends JpaRepository<AggregatedPrice, Long> {
@@ -15,4 +16,6 @@ public interface AggregatedPriceRepository extends JpaRepository<AggregatedPrice
             "(SELECT MAX(ap2.aggregated_at) FROM aggregated_price as ap2 " +
             "WHERE ap2.trading_pair_id = ap.trading_pair_id)")
     List<AggregatedPrice> findLatestPricesForAllPairs();
+
+    Optional<AggregatedPrice> findFirstByTradingPairIdOrderByAggregatedAtDesc(Long tradingPairId);
 }

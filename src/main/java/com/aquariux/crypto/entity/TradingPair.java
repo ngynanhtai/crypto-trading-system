@@ -19,11 +19,11 @@ public class TradingPair {
     @Column(nullable = false, unique = true, length = 20)
     private String symbol;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "base_currency_id", nullable = false)
     private Currency baseCurrency;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "quote_currency_id", nullable = false)
     private Currency quoteCurrency;
 }

@@ -70,12 +70,11 @@ public class ExternalClientServiceImpl implements ExternalClientService {
 
             if (tickers != null && tickers.isArray()) {
                 for (JsonNode node : tickers) {
-                    String symbol = node.get("symbol").asText().toUpperCase();
-                    if (symbol.equalsIgnoreCase(tradingPair)) {
+                    if (node.get("symbol").asText().equalsIgnoreCase(tradingPair)) {
                         return ExternalPriceDTO.builder()
-                                .symbol(symbol)
-                                .bid(new BigDecimal(node.get("bid").get(0).asText()))
-                                .ask(new BigDecimal(node.get("ask").get(0).asText()))
+                                .symbol(tradingPair)
+                                .bid(new BigDecimal(node.get("bid").asText()))
+                                .ask(new BigDecimal(node.get("ask").asText()))
                                 .rawJson(node.toString())
                                 .build();
                     }
