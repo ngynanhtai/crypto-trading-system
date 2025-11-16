@@ -144,7 +144,7 @@ public class TradeServiceImpl implements TradeService {
             responseDTO.setData(TradeOrderDTO
                     .builder()
                     .id(order.getId())
-                            .wallets(WalletDTO.convertToDTO(Arrays.asList(baseWallet, quoteWallet)))
+                    .wallets(WalletDTO.convertToListDTO(Arrays.asList(baseWallet, quoteWallet)))
                     .user(UserDTO
                             .builder()
                             .id(requestDTO.getUserId())

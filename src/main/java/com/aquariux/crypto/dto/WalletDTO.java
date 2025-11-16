@@ -21,17 +21,20 @@ public class WalletDTO {
     private BigDecimal locked;
     private LocalDateTime updatedAt;
 
-    public static List<WalletDTO> convertToDTO(List<Wallet> wallets) {
+    public static WalletDTO convertToDTO(Wallet wallet) {
+        return WalletDTO
+                .builder()
+                .currency(wallet.getCurrency().getSymbol())
+                .available(wallet.getAvailable())
+                .locked(wallet.getLocked())
+                .updatedAt(wallet.getUpdatedAt())
+                .build();
+    }
+
+    public static List<WalletDTO> convertToListDTO(List<Wallet> wallets) {
         List<WalletDTO> list = new ArrayList<>();
         for (Wallet wallet : wallets) {
-            WalletDTO dto = WalletDTO
-                    .builder()
-                    .currency(wallet.getCurrency().getSymbol())
-                    .available(wallet.getAvailable())
-                    .locked(wallet.getLocked())
-                    .updatedAt(wallet.getUpdatedAt())
-                    .build();
-            list.add(dto);
+            list.add(convertToDTO(wallet));
         }
         return list;
     }
