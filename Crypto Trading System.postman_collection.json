@@ -1,0 +1,436 @@
+{
+	"info": {
+		"_postman_id": "07f2daf1-11dd-48ea-ac12-26b6a2123903",
+		"name": "Aquariux - Crypto Trading System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17277467"
+	},
+	"item": [
+		{
+			"name": "GET Latest Prices",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/prices/latest",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"prices",
+						"latest"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/prices/latest",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"prices",
+								"latest"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 16 Nov 2025 10:31:41 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"id\": 1855,\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"bestBid\": \"96446.52\",\n            \"bestBidSource\": {\n                \"id\": 2,\n                \"code\": \"HUOBI\"\n            },\n            \"bestAsk\": \"96442.99\",\n            \"bestAskSource\": {\n                \"id\": 1,\n                \"code\": \"BINANCE\"\n            },\n            \"aggregatedAt\": \"2025-11-16T17:31:37.891955\"\n        },\n        {\n            \"id\": 1856,\n            \"tradingPair\": {\n                \"id\": 2,\n                \"symbol\": \"ETHUSDT\"\n            },\n            \"bestBid\": \"3233.76\",\n            \"bestBidSource\": {\n                \"id\": 1,\n                \"code\": \"BINANCE\"\n            },\n            \"bestAsk\": \"3233.25\",\n            \"bestAskSource\": {\n                \"id\": 2,\n                \"code\": \"HUOBI\"\n            },\n            \"aggregatedAt\": \"2025-11-16T17:31:38.716833\"\n        }\n    ],\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET Wallet Balance",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/balance/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"balance",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/balance/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"balance",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 16 Nov 2025 10:32:48 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"currency\": \"USDT\",\n            \"available\": \"10075.1445\",\n            \"locked\": \"0.00\",\n            \"updatedAt\": \"2025-11-15T23:19:12.876013\"\n        },\n        {\n            \"currency\": \"BTC\",\n            \"available\": \"0.425\",\n            \"locked\": \"0.00\",\n            \"updatedAt\": \"2025-11-15T23:19:12.876013\"\n        },\n        {\n            \"currency\": \"ETH\",\n            \"available\": \"0.3\",\n            \"locked\": \"0.00\",\n            \"updatedAt\": \"2025-11-15T23:19:12.876013\"\n        }\n    ],\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET Transaction History",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/transaction-history/1?page=0&size=10&sort=createdAt;desc",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"transaction-history",
+						"1"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "createdAt;desc"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/transaction-history/1?page=0&size=10&sort=createdAt;desc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"transaction-history",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "createdAt;desc"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 16 Nov 2025 10:33:04 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 15,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T17:23:26.816687\",\n                \"executedAt\": \"2025-11-16T17:23:26.816687\"\n            },\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"side\": \"BUY\",\n            \"price\": \"96459.94\",\n            \"amount\": \"0.125\",\n            \"total\": \"12057.4925\",\n            \"createdAt\": \"2025-11-16T17:23:26.821018\"\n        },\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 13,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T12:22:22.304781\",\n                \"executedAt\": \"2025-11-16T12:22:22.304781\"\n            },\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"side\": \"BUY\",\n            \"price\": \"96043\",\n            \"amount\": \"0.1\",\n            \"total\": \"9604.3\",\n            \"createdAt\": \"2025-11-16T12:22:22.307267\"\n        },\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 12,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T12:11:12.042836\",\n                \"executedAt\": \"2025-11-16T12:11:12.042836\"\n            },\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"side\": \"BUY\",\n            \"price\": \"95956.47\",\n            \"amount\": \"0.1\",\n            \"total\": \"9595.647\",\n            \"createdAt\": \"2025-11-16T12:11:12.04487\"\n        },\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 11,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T12:05:05.698886\",\n                \"executedAt\": \"2025-11-16T12:05:05.698886\"\n            },\n            \"tradingPair\": {\n                \"id\": 2,\n                \"symbol\": \"ETHUSDT\"\n            },\n            \"side\": \"BUY\",\n            \"price\": \"3199.27\",\n            \"amount\": \"0.3\",\n            \"total\": \"959.781\",\n            \"createdAt\": \"2025-11-16T12:05:05.699886\"\n        },\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 10,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T12:04:49.445093\",\n                \"executedAt\": \"2025-11-16T12:04:49.445093\"\n            },\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"side\": \"BUY\",\n            \"price\": \"95864.61\",\n            \"amount\": \"0.1\",\n            \"total\": \"9586.461\",\n            \"createdAt\": \"2025-11-16T12:04:49.445093\"\n        },\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 6,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T12:02:04.754002\",\n                \"executedAt\": \"2025-11-16T12:02:04.754002\"\n            },\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"side\": \"SELL\",\n            \"price\": \"95822.97\",\n            \"amount\": \"1.4\",\n            \"total\": \"134152.158\",\n            \"createdAt\": \"2025-11-16T12:02:04.754002\"\n        },\n        {\n            \"user\": {\n                \"id\": 1\n            },\n            \"tradeOrder\": {\n                \"id\": 5,\n                \"status\": \"FILLED\",\n                \"createdAt\": \"2025-11-16T12:01:54.24042\",\n                \"executedAt\": \"2025-11-16T12:01:54.24042\"\n            },\n            \"tradingPair\": {\n                \"id\": 1,\n                \"symbol\": \"BTCUSDT\"\n            },\n            \"side\": \"SELL\",\n            \"price\": \"95822.97\",\n            \"amount\": \"100\",\n            \"total\": \"9582297\",\n            \"createdAt\": \"2025-11-16T12:01:54.248412\"\n        }\n    ],\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "POST Execute Trade",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 1,\r\n    \"tradingPairId\": 1,\r\n    \"transactionType\": \"BUY\",\r\n    \"amount\": 50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/trade",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"trade"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"tradingPairId\": 1,\r\n    \"transactionType\": \"SELL\",\r\n    \"amount\": 0.01\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/trade",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"trade"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 16 Nov 2025 10:34:39 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 19,\n        \"wallets\": [\n            {\n                \"currency\": \"BTC\",\n                \"available\": \"0.415\",\n                \"locked\": \"0.00\",\n                \"updatedAt\": \"2025-11-15T23:19:12.876013\"\n            },\n            {\n                \"currency\": \"USDT\",\n                \"available\": \"11039.7546\",\n                \"locked\": \"0.00\",\n                \"updatedAt\": \"2025-11-15T23:19:12.876013\"\n            }\n        ],\n        \"user\": {\n            \"id\": 1\n        },\n        \"tradingPair\": {\n            \"id\": 1,\n            \"symbol\": \"BTCUSDT\"\n        },\n        \"side\": \"SELL\",\n        \"amount\": \"0.01\",\n        \"price\": \"96461.01\",\n        \"total\": \"964.6101\",\n        \"status\": \"FILLED\",\n        \"createdAt\": \"2025-11-16T17:34:39.6910943\",\n        \"executedAt\": \"2025-11-16T17:34:39.6910943\"\n    },\n    \"status\": \"OK\"\n}"
+				},
+				{
+					"name": "400 - Not enough balance",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"tradingPairId\": 1,\r\n    \"transactionType\": \"BUY\",\r\n    \"amount\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/trade",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"trade"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 16 Nov 2025 10:33:33 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Insufficient quote currency (USDT)\",\n    \"status\": \"BAD_REQUEST\"\n}"
+				},
+				{
+					"name": "400 - Insufficient balance to sell",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"tradingPairId\": 1,\r\n    \"transactionType\": \"SELL\",\r\n    \"amount\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/trade",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"trade"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 16 Nov 2025 10:34:06 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Insufficient base currency\",\n    \"status\": \"BAD_REQUEST\"\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
