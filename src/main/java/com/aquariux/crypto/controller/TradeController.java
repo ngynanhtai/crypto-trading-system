@@ -22,7 +22,7 @@ public class TradeController {
     @Autowired
     private TradeService tradeService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/api/prices/latest")
+    @RequestMapping(method = RequestMethod.GET, value = "/prices/latest")
     public ResponseEntity<?> latestPrices() {
         ResponseDTO responseDTO = priceAggregationService.findLatestPrices();
         return new ResponseEntity<>(responseDTO, responseDTO.getStatus());
