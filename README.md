@@ -103,7 +103,8 @@ Returns a list of:
 
 📂 Database Structure (ERD)
 ---------------------------
-`![ERD Diagram](https://github.com/ngynanhtai/crypto-trading-system/blob/master/ERD.png)`
+<img width="1419" height="1609" alt="ERD" src="https://github.com/user-attachments/assets/35f5b979-1a2d-41d2-a23f-d3383ebdbbd7" />
+
 
 📡 API Endpoints
 ----------------
